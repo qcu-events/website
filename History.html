@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History of Events | QCU EVENTS</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .acct {
+            display: flex;
+            min-height: 100vh;
+            background: #fffcfa;
+        }
+
+        .side {
+            width: 240px;
+            padding: 20px;
+            border-right: 1px solid #e9ded7;
+        }
+
+        .side a {
+            display: block;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .side a:hover,
+        .side a.active {
+            background: #f1dcd2;
+        }
+
+        .main {
+            flex: 1;
+            padding: 30px 40px;
+            max-width: 760px;
+        }
+
+        .main h1 {
+            margin-bottom: 20px;
+        }
+
+        .main section {
+            padding: 20px 0;
+            border-bottom: 1px solid #e9ded7;
+        }
+
+        .main label {
+            display: block;
+            font-weight: 600;
+            margin: 12px 0 6px;
+        }
+
+        .main select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #e9ded7;
+            border-radius: 10px;
+        }
+
+        .main table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .main th,
+        .main td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #e9ded7;
+        }
+
+        .btns {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: 1px solid #e9ded7;
+            border-radius: 10px;
+            background: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn.save {
+            background: #c98270;
+            border-color: #c98270;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="acct">
+
+        <aside class="side">
+            <h3>Your account</h3>
+            <a href="Accounts.html">Profile</a>
+            <a href="History.html" class="active">History of Events</a>
+            <a href="Registered.html">History of Registered Events</a>
+            <a href="About.html">About</a>
+            <a href="participantpage.html">&larr; Back to QCU Events</a>
+            <a href="index.html">Log Out</a>
+        </aside>
+
+        
+        <main class="main">
+            <h1>History of Events</h1>
+            <section>
+                <p>Events you created or attended.</p>
+                <table>
+                    <tr>
+                        <th>Event</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr>
+                        <td>QCU Campus Gathering</td>
+                        <td>October 26, 2026</td>
+                        <td>Attended</td>
+                    </tr>
+                    <tr>
+                        <td>Arts and Creativity Day</td>
+                        <td>October 28, 2026</td>
+                        <td>Upcoming</td>
+                    </tr>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>

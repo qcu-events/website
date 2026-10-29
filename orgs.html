@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orgs</title>
+
+    <style>
+        /* Top navbar */
+        .navbar {
+            max-width: 1100px;
+            margin: 24px auto 0;
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            background: #FFFCF9;
+            border-radius: 22px;
+            box-shadow: 0 8px 24px rgba(70, 49, 38, 0.07);
+            box-sizing: border-box;
+            position: relative;
+            z-index: 10;
+        }
+        .navbar .logo {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #B8705E;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .navbar .logo span { color: #B8705E; }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #2B2320;
+            text-decoration: none;
+        }
+        .nav-links a:hover { color: #8F4A3B; }
+
+        .nav-user { display: flex; align-items: center; gap: 12px; }
+        .nav-user form { display: flex; align-items: center; gap: 12px; margin: 0; }
+        .nav-user input[type="search"] {
+            width: 230px;
+            padding: 14px 20px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #2B2320;
+            background: #FFFCF9;
+            border: 2px solid #C98270;
+            border-radius: 999px;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .nav-user input[type="search"]:focus { box-shadow: 0 0 0 3px rgba(201, 130, 112, 0.25); }
+        .nav-user form button {
+            padding: 14px 22px;
+            font-size: 14px;
+            font-family: inherit;
+            font-weight: 700;
+            color: #B8705E;
+            background: #FFFCF9;
+            border: 2px solid #C98270;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+        .nav-user form button:hover { background: #C98270; color: #FFFFFF; }
+
+        /* User dropdown */
+        .user-menu { position: relative; }
+        .user-menu > summary {
+            list-style: none;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+            background: linear-gradient(145deg, #D99A87, #C98270 60%, #B97463);
+            box-shadow: 0 4px 10px rgba(158, 98, 83, 0.3);
+            transition: 0.3s ease;
+            user-select: none;
+        }
+        .user-menu > summary::-webkit-details-marker { display: none; }
+        .user-menu > summary:hover { transform: translateY(-2px); }
+        .user-menu .menu {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 12px);
+            min-width: 240px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            background: #FFFCF9;
+            border: 1px solid rgba(121, 108, 100, 0.12);
+            border-radius: 16px;
+            box-shadow: 0 16px 30px rgba(70, 49, 38, 0.15);
+        }
+        .user-menu .menu a,
+        .user-menu .edit-acc > summary {
+            display: block;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #2B2320;
+            text-decoration: none;
+            border-radius: 10px;
+            cursor: pointer;
+            list-style: none;
+        }
+        .user-menu .edit-acc > summary::-webkit-details-marker { display: none; }
+        .user-menu .edit-acc > summary::after { content: "\25BE"; float: right; }
+        .user-menu .menu a:hover,
+        .user-menu .edit-acc > summary:hover { background: #F5ECE6; color: #8F4A3B; }
+        .user-menu .menu a.sub { padding-left: 28px; font-weight: 500; color: #7A6E68; }
+        .user-menu .menu a.logout {
+            margin-top: 6px;
+            border-top: 1px solid #EFE3DB;
+            border-radius: 0 0 10px 10px;
+            color: #B8705E;
+        }
+
+        @media (max-width: 900px) {
+            .navbar { flex-wrap: wrap; justify-content: center; }
+            .nav-links { display: none; }
+        }
+        @media (max-width: 600px) {
+            .nav-user input[type="search"] { width: 150px; }
+        }
+
+        html { scroll-behavior: smooth; }
+        body { background: #F5ECE6; margin: 0; font-family: "Segoe UI", Arial, sans-serif; }
+        .all-org-page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+            color: #2B2320;
+        }
+        .all-org-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .all-org-header h1 {
+            margin: 0 0 6px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 42px;
+            font-weight: 400;
+        }
+        .all-org-header p {
+            margin: 0;
+            color: #7A6E68;
+            font-size: 14px;
+        }
+        .all-org-section { margin-top: 44px; }
+        .all-org-section h2 {
+            margin: 0 0 22px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 26px;
+            font-weight: 400;
+        }
+        .all-org-filters { margin-top: 28px; }
+
+        .home-button {
+            display: inline-block;
+            padding: 12px 22px;
+            background-color: #F5ECE6;
+            color: #795548;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            border-radius: 20px;
+            border: 1px solid #DCC8BC;
+            transition: 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #DCC8BC;
+            color: #FFFFFF;
+            transform: translateY(-2px);
+        }
+
+        /* Filter pills */
+        .all-org-filters {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 8px;
+            border-radius: 50px;
+            background: linear-gradient(145deg, #D99A87, #C98270 60%, #B97463);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 6px 14px rgba(158, 98, 83, 0.22),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.42);
+        }
+        .all-org-filters .filter-btn {
+            display: inline-block;
+            padding: 12px 22px;
+            background-color: #F5ECE6;
+            color: #795548;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            border-radius: 20px;
+            border: 1px solid #DCC8BC;
+            transition: 0.3s ease;
+        }
+        .all-org-filters .filter-btn:hover,
+        .all-org-filters .filter-btn.active {
+            background: #8F4A3B;
+            color: #FFFFFF;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(120, 62, 49, 0.12);
+        }
+
+        /* Cards (3 columns like your screenshot) */
+        .all-category-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+        .all-category-card {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            overflow: hidden;
+            text-decoration: none;
+            border: 1px solid rgba(121, 108, 100, 0.09);
+            border-radius: 18px;
+            background: #FFFCF9;
+            color: #2B2320;
+            box-shadow: 0 8px 22px rgba(70, 49, 38, 0.06),
+                        inset 0 1px 0 #FFFFFF;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .all-category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 30px rgba(70, 49, 38, 0.13);
+        }
+        .all-org-cover {
+            display: block;
+            width: 100%;
+            height: 195px;
+            object-fit: cover;
+            background: #DAD8C6;
+            color: #7A6E68;
+            font-size: 13px;
+        }
+        .all-org-info {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 22px 24px 26px;
+        }
+        .category-icon {
+            width: 44px;
+            height: 44px;
+            margin-bottom: 16px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #FFF8F4, #F1DCD2);
+            color: #8F4A3B;
+            font-size: 11px;
+            overflow: hidden;
+            box-sizing: border-box;
+            box-shadow: 0 4px 10px rgba(75, 49, 37, 0.08),
+                        inset 0 1px 0 #FFFFFF;
+        }
+        .all-org-logo {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .all-org-info h3 {
+            margin: 0 0 8px;
+            color: #2B2320;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 1.35;
+        }
+        .all-org-info p {
+            margin: 0 0 17px;
+            color: #7A6E68;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+        .all-org-info > span {
+            margin-top: auto;
+            color: #8F4A3B;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+        }
+
+        @media (max-width: 900px) {
+            .all-category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (max-width: 600px) {
+            .all-category-grid { grid-template-columns: 1fr; }
+            .all-org-header h1 { font-size: 32px; }
+        }
+    </style>
+</head>
+
+<body>
+<header class="navbar">
+        <a href="participantpage.html" class="logo">QCU <span>EVENTS</span></a>
+
+        <nav class="nav-links">
+            <a href="participantpage.html">Home</a>
+            <a href="#upcoming-events">Upcoming Events</a>
+            <a href="#organizations">Organizations</a>
+        </nav>
+
+        <div class="nav-user">
+            <form action="orgs.html" method="get">
+                <input type="search" name="q" placeholder="Search organizations..." autocomplete="off">
+                <button type="submit">Search</button>
+            </form>
+
+            <details class="user-menu">
+                <summary>&#128100;</summary>
+                <div class="menu">
+                    <details class="edit-acc">
+                        <summary>Edit Account</summary>
+                        <a href="Accounts.html#user" class="sub">Edit User</a>
+                        <a href="Accounts.html#password" class="sub">Edit Password</a>
+                        <a href="Accounts.html#profile" class="sub">Edit Profile</a>
+                    </details>
+                    <a href="History.html">History of Events</a>
+                    <a href="Registered.html">History of Registered Events</a>
+                    <a href="About.html">About</a>
+                    <a href="index.html" class="logout">Log Out</a>
+                </div>
+            </details>
+        </div>
+    </header>
+
+<main class="all-org-page" id="all-orgs">
+
+    <div class="all-org-header">
+        <div>
+            <h1>Student Organizations</h1>
+            <p>Discover student groups and communities at QCU.</p>
+        </div>
+    </div>
+
+    <div class="all-org-filters">
+        <a href="#all-orgs" class="filter-btn">ALL</a>
+        <a href="#department" class="filter-btn">DEPARTMENT</a>
+        <a href="#academic" class="filter-btn">ACADEMIC</a>
+        <a href="#nonacademic" class="filter-btn">NON ACADEMIC</a>
+    </div>
+
+    <!-- DEPARTMENT ORGANIZATIONS -->
+    <section id="department" class="all-org-section">
+        <h2>DEPARTMENT ORGANIZATIONS</h2>
+        <div class="all-category-grid">
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="department">
+            <img class="all-org-cover" src="COB-COVER.jpg" alt="QCU College of Business Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="COB.jpg" alt="QCU College of Business Logo">
+                </div>
+                <h3>College of Business</h3>
+                <p>Student organizations under the College of Business.</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="department">
+            <img class="all-org-cover" src="COED-COVER.jpg" alt="QCU College of Education Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="COED.jpg" alt="QCU College of Education Logo">
+                </div>
+                <h3>College of Education</h3>
+                <p>Student organizations under the College of Education.</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="department">
+            <img class="all-org-cover" src="CCS-COVER.jpg" alt="QCU College of Computer Studies Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="CCS.jpg" alt="QCU College of Computer Studies Logo">
+                </div>
+                <h3>College of Computer Studies</h3>
+                <p>Student organizations under the College of Computer Studies.</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="department">
+            <img class="all-org-cover" src="COE-COVER.jpg" alt="QCU College of Engineering Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="COE.jpg" alt="QCU College of Engineering Logo">
+                </div>
+                <h3>College of Engineering</h3>
+                <p>Student organizations under the College of Engineering.</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        </div>
+    </section>
+
+    <!-- ACADEMIC ORGANIZATIONS -->
+    <section id="academic" class="all-org-section">
+        <h2>ACADEMIC ORGANIZATIONS</h2>
+        <div class="all-category-grid">
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="academic">
+            <img class="all-org-cover" src="YES-COVER.jpg" alt="YES Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="YES-LOGO.png" alt="YES Logo">
+                </div>
+                <h3>Young Entrepreneurs&#x27; Society (YES)</h3>
+                <p>College of Business (BSENT)</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="academic">
+            <img class="all-org-cover" src="JPIA-COVER.jpg" alt="JPIA Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="JPIA-LOGO.png" alt="JPIA Logo">
+                </div>
+                <h3>Junior Philippine Institute of Accountants (JPIA)</h3>
+                <p>College of Accountancy</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="academic">
+            <img class="all-org-cover" src="JMAEX-COVER.jpg" alt="JMAEX Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="JMAEX-LOGO.png" alt="JMAEX Logo">
+                </div>
+                <h3>Junior Management Accountant Executives (JMAEX)</h3>
+                <p>College of Accountancy</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="academic">
+            <img class="all-org-cover" src="LESIT-COVER.jpg" alt="LESIT Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="LESIT-LOGO.png" alt="LESIT Logo">
+                </div>
+                <h3>League of Excellent Students in Information Technology (LESIT)</h3>
+                <p>College of Computer Studies</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="academic">
+            <img class="all-org-cover" src="SYVSIS-COVER.jpg" alt="SYVSIS Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="SYVSIS-LOGO.png" alt="SYVSIS Logo">
+                </div>
+                <h3>Synergy of Young Visionary Students in Information System (SYVSIS)</h3>
+                <p>College of Computer Studies</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="academic">
+            <img class="all-org-cover" src="JPCS-COVER.jpg" alt="JPCS Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="JPCS-LOGO.png" alt="JPCS Logo">
+                </div>
+                <h3>Junior Philippine Computer Society (JPCS)</h3>
+                <p>College of Computer Studies</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="academic">
+            <img class="all-org-cover" src="EDUK-COVER.jpg" alt="Eduk Club Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="EDUK-LOGO.png" alt="Eduk Club Logo">
+                </div>
+                <h3>Eduk Club</h3>
+                <p>College of Education (BECEd)</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="academic">
+            <img class="all-org-cover" src="PIIE-ORSP-COVER.jpg" alt="PIIE-ORSP Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="PIIE-ORSP-LOGO.png" alt="PIIE-ORSP Logo">
+                </div>
+                <h3>Philippine Institute of Industrial Engineering</h3>
+                <p>College of Engineering</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="academic">
+            <img class="all-org-cover" src="IECEP-COVER.jpg" alt="IECEP Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="IECEP-LOGO.png" alt="IECEP Logo">
+                </div>
+                <h3>Institute of Electronic Engineering of the Philippines (IECEP)</h3>
+                <p>College of Engineering</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="academic">
+            <img class="all-org-cover" src="ICPEP-COVER.jpg" alt="ICPEP Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="ICPEP-LOGO.png" alt="ICPEP Logo">
+                </div>
+                <h3>Institute of Computer Engineers of the Philippines (ICPEP)</h3>
+                <p>College of Engineering</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        </div>
+    </section>
+
+    <!-- NON-ACADEMIC ORGANIZATIONS -->
+    <section id="nonacademic" class="all-org-section">
+        <h2>NON-ACADEMIC ORGANIZATIONS</h2>
+        <div class="all-category-grid">
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="SSC-COVER.jpg" alt="SSC Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="SSC-LOGO.png" alt="SSC Logo">
+                </div>
+                <h3>Supreme Student Council (SSC)</h3>
+                <p>Student Governance</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="TQCU-COVER.jpg" alt="TQCU Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="TQCU-LOGO.png" alt="TQCU Logo">
+                </div>
+                <h3>Tanghalan Quezon City University (TQCU)</h3>
+                <p>Performing Arts</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="CSS-COVER.jpg" alt="CSS Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="CSS-LOGO.png" alt="CSS Logo">
+                </div>
+                <h3>Creative Student Society (CSS)</h3>
+                <p>Creative Community</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="AWS-COVER.jpg" alt="AWS Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="AWS-LOGO.png" alt="AWS Logo">
+                </div>
+                <h3>Amazon Web Services Cloud Club (AWS)</h3>
+                <p>Cloud Computing Community</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="KDC-COVER.jpg" alt="KDC Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="KDC-LOGO.png" alt="KDC Logo">
+                </div>
+                <h3>Kalayaan Dance Community (KDC)</h3>
+                <p>Dance Community</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="GENZ-COVER.jpg" alt="GEN Z Learners Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="GENZ-LOGO.png" alt="GEN Z Learners Logo">
+                </div>
+                <h3>GEN Z Learners</h3>
+                <p>Student Community</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="KEC-COVER.jpg" alt="KEC Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="KEC-LOGO.png" alt="KEC Logo">
+                </div>
+                <h3>Kyusi E-Sports Community (KEC)</h3>
+                <p>E-Sports Community</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="KCC-COVER.jpg" alt="KCC Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="KCC-LOGO.png" alt="KCC Logo">
+                </div>
+                <h3>Kyusi Cosplay Community (KCC)</h3>
+                <p>Cosplay Community</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="IC-COVER.jpg" alt="Iskolar Council Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="IC-LOGO.png" alt="Iskolar Council Logo">
+                </div>
+                <h3>Iskolar Council (IC)</h3>
+                <p>Student Council</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="YTR-COVER.jpg" alt="YTR Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="YTR-LOGO.png" alt="YTR Logo">
+                </div>
+                <h3>Youth on the Rock (YTR)</h3>
+                <p>Student Community</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="PC-COVER.jpg" alt="Peer Counselors Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="PC-LOGO.png" alt="Peer Counselors Logo">
+                </div>
+                <h3>Peer Counselors (PC)</h3>
+                <p>Peer Support</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="TIMES-COVER.jpg" alt="TIMES Publication Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="TIMES-LOGO.png" alt="TIMES Publication Logo">
+                </div>
+                <h3>TIMES Publication (TP)</h3>
+                <p>Student Publication</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="JCS-COVER.jpg" alt="JCS Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="JCS-LOGO.png" alt="JCS Logo">
+                </div>
+                <h3>Jade Cultural Society (JCS)</h3>
+                <p>Cultural Organization</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="ROBOTICS-COVER.jpg" alt="Robotics Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="ROBOTICS-LOGO.png" alt="Robotics Logo">
+                </div>
+                <h3>Robotics</h3>
+                <p>Robotics Community</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="LIGERS-COVER.jpg" alt="Ligers Squad Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="LIGERS-LOGO.png" alt="Ligers Squad Logo">
+                </div>
+                <h3>Ligers Squad</h3>
+                <p>Cheerleading and Dance</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="ENC-COVER.jpg" alt="ENC Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="ENC-LOGO.png" alt="ENC Logo">
+                </div>
+                <h3>Every Nation Campus Nova Bayan (ENC)</h3>
+                <p>Campus Community</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        <a href="orgs.html" class="all-category-card all-org-card" data-category="non-academic">
+            <img class="all-org-cover" src="MSC-COVER.jpg" alt="MSC Cover">
+            <div class="all-org-info">
+                <div class="category-icon">
+                    <img class="all-org-logo" src="MSC-LOGO.png" alt="MSC Logo">
+                </div>
+                <h3>Microsoft Student Community (MSC)</h3>
+                <p>Technology Community</p>
+                <span>Explore Organization →</span>
+            </div>
+        </a>
+
+        </div>
+    </section>
+
+</main>
+
+<script>
+    const searchInput = document.querySelector('.nav-user input[type="search"]');
+    const orgCards = document.querySelectorAll('.all-org-card');
+    const orgSections = document.querySelectorAll('.all-org-section');
+
+    const noResults = document.createElement('p');
+    noResults.textContent = 'No organizations found.';
+    noResults.style.cssText = 'display:none;margin-top:44px;color:#7A6E68;font-size:15px;';
+    document.querySelector('.all-org-page').appendChild(noResults);
+
+    function filterOrgs(term) {
+        term = term.trim().toLowerCase();
+        let total = 0;
+
+        orgCards.forEach(card => {
+            const text = (card.querySelector('h3').textContent + ' ' +
+                          card.querySelector('p').textContent).toLowerCase();
+            const match = text.includes(term);
+            card.style.display = match ? '' : 'none';
+            if (match) total++;
+        });
+
+        orgSections.forEach(sec => {
+            const anyVisible = [...sec.querySelectorAll('.all-org-card')]
+                .some(c => c.style.display !== 'none');
+            sec.style.display = anyVisible ? '' : 'none';
+        });
+
+        noResults.style.display = total === 0 ? 'block' : 'none';
+    }
+
+    const initialQuery = new URLSearchParams(location.search).get('q') || '';
+    searchInput.value = initialQuery;
+    filterOrgs(initialQuery);
+    search.form.onsubmit = e => e.preventDefault();
+    searchInput.addEventListener('input', () => filterOrgs(searchInput.value));
+
+</script>
+</body>
+</html>

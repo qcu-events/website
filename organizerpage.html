@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QCU EVENTS</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Search bar po tas yung menu */
+        .nav-user, .nav-user form { display: flex; align-items: center; gap: 10px; }
+        .nav-user input { width: 260px; padding: 10px 18px; border: 2px solid #c98270; border-radius: 999px; background: #fefbf8; color: #382d28; font-family: inherit; }
+        .nav-user button { padding: 10px 16px; border: 2px solid #c98270; border-radius: 999px; background: transparent; color: #c98270; font-weight: 700; font-family: inherit; cursor: pointer; }
+        .nav-user button:hover { background: #c98270; color: #fefbf8; }
+
+        .user-menu { position: relative; }
+        .user-menu summary { list-style: none; width: 44px; height: 44px; border-radius: 50%; background: #c98270; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .user-menu summary::-webkit-details-marker { display: none; }
+        .user-menu .menu { position: absolute; right: 0; top: 54px; width: 230px; padding: 8px; background: #fefbf8; border: 2px solid #c98270; border-radius: 16px; z-index: 1000; }
+        .user-menu .menu a { display: block; padding: 10px 12px; border-radius: 10px; color: #382d28; text-decoration: none; font-weight: 600; }
+        .user-menu .menu a:hover { background: #f6e8e3; }
+        .user-menu .menu a.sub { padding-left: 28px; font-weight: 500; font-size: 0.95em; }
+        .user-menu .menu .edit-acc summary { position: static; width: auto; height: auto; border-radius: 10px; background: transparent; display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; color: #382d28; font-weight: 600; cursor: pointer; }
+        .user-menu .menu .edit-acc summary:hover { background: #f6e8e3; }
+        .user-menu .menu .edit-acc summary::after { content: "▾"; transition: transform .2s; }
+        .user-menu .menu .edit-acc[open] summary::after { transform: rotate(180deg); }
+        .user-menu .menu .logout { color: #b3261e; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <header class="navbar">
+        <a href="organizerpage.html" class="logo">QCU <span>EVENTS</span></a>
+
+        <nav class="nav-links">
+            <a href="organizerpage.html">Home</a>
+            <a href="#upcoming-events">Upcoming Events</a>
+            <a href="#organizations">Organizations</a>
+        </nav>
+
+        <!-- SEARCH BAR + USER MENU (upper right) -->
+        <div class="nav-user">
+            <form action="events.html" method="get">
+                <input type="search" name="q" placeholder="Search current &amp; upcoming events..." autocomplete="off">
+                <button type="submit">Search</button>
+            </form>
+
+            <details class="user-menu">
+                <summary>&#128100;</summary>
+                <div class="menu">
+                    <details class="edit-acc">
+                        <summary>Edit Account</summary>
+                        <a href="account.html#user" class="sub">Edit User</a>
+                        <a href="account.html#password" class="sub">Edit Password</a>
+                        <a href="account.html#profile" class="sub">Edit Profile</a>
+                    </details>
+                    <a href="history.html">History of Events</a>
+                    <a href="registered.html">History of Registered Events</a>
+                    <a href="about.html">About</a>
+                    <a href="index.html" class="logout">Log Out</a>
+                </div>
+            </details>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-glass">
+            <div class="hero-content">
+                <span class="eyebrow">WELCOME TO QCU EVENTS</span>
+                <h1>Discover What's<br>Happening at QCU.</h1>
+                <p>Discover campus events, meet fellow students, and explore exciting activities at Quezon City University.</p>
+                <a href="#upcoming-events" class="hero-btn">Explore Events →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- UPCOMING EVENTS -->
+    <section class="events-section" id="upcoming-events">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">SAVE THE DATE</span>
+                <h2>Upcoming Events</h2>
+                <p>Check out the events happening soon at QCU.</p>
+            </div>
+            <a href="events.html" class="view-all">View All Events →</a>
+        </div>
+
+        <div class="event-grid">
+
+            <!-- EVENT 1 -->
+            <a href="events.html" class="event-card">
+                <img class="event-photo"
+                     src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=85"
+                     alt="Campus gathering">
+                <div class="event-info">
+                    <span class="event-tag">HAPPENING TOMORROW</span>
+                    <h3>QCU Campus Gathering</h3>
+                    <p>Meet fellow students and enjoy a fun campus gathering.</p>
+                    <p class="event-date">October 26, 2026</p>
+                </div>
+            </a>
+
+            <!-- EVENT 2 -->
+            <a href="events.html" class="event-card">
+                <img class="event-photo"
+                     src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=85"
+                     alt="Art and creativity">
+                <div class="event-info">
+                    <span class="event-tag">COMING SOON</span>
+                    <h3>Arts and Creativity Day</h3>
+                    <p>Discover student artwork, creativity, and talent.</p>
+                    <p class="event-date">October 28, 2026</p>
+                </div>
+            </a>
+
+            <!-- EVENT 3 -->
+            <a href="events.html" class="event-card">
+                <img class="event-photo"
+                     src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=85"
+                     alt="Sports event">
+                <div class="event-info">
+                    <span class="event-tag">UPCOMING</span>
+                    <h3>QCU Sports Fest</h3>
+                    <p>Support your fellow students in exciting sports activities.</p>
+                    <p class="event-date">October 30, 2026</p>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- CREATE EVENT -->
+    <section class="create-section">
+        <div class="create-card">
+            <div class="create-icon">✦</div>
+            <div>
+                <span class="eyebrow">MAKE IT HAPPEN</span>
+                <h2>Have an event in mind?</h2>
+                <p>Log in to explore event options and connect with the QCU community.</p>
+            </div>
+            <a href="createevents.html" class="create-btn">Get Started →</a>
+        </div>
+    </section>
+
+    <!-- STUDENT ORGANIZATIONS -->
+    <section class="categories-section" id="organizations">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">FIND YOUR COMMUNITY</span>
+                <h2>Student Organizations</h2>
+                <p>Discover student groups and communities at QCU.</p>
+            </div>
+        </div>
+
+        <div class="category-grid">
+
+            <!-- QCU LIGERS TETSQUAD -->
+            <a href="organizations.html" class="category-card org-card">
+                <img class="org-photo"
+                     src="https://images.unsplash.com/photo-1526676037777-05a232554f77?auto=format&fit=crop&w=800&q=85"
+                     alt="Team and cheerleading activity">
+                <div class="org-info">
+                    <div class="category-icon">📣</div>
+                    <h3>QCU Ligers Tetsquad</h3>
+                    <p>Cheerleading, teamwork, school spirit, and performance.</p>
+                    <span>Explore Organization →</span>
+                </div>
+            </a>
+
+            <!-- KALAYAAN DANCE COMPANY -->
+            <a href="organizations.html" class="category-card org-card">
+                <img class="org-photo"
+                     src="https://images.unsplash.com/photo-1504609813442-a8924e83f76e?auto=format&fit=crop&w=800&q=85"
+                     alt="Dance performance">
+                <div class="org-info">
+                    <div class="category-icon">💃</div>
+                    <h3>Kalayaan Dance Company</h3>
+                    <p>A community for dancers to express themselves and perform.</p>
+                    <span>Explore Organization →</span>
+                </div>
+            </a>
+
+            <!-- TANGHALANG QCU -->
+            <a href="organizations.html" class="category-card org-card">
+                <img class="org-photo"
+                     src="https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=800&q=85"
+                     alt="Theater stage performance">
+                <div class="org-info">
+                    <div class="category-icon">🎭</div>
+                    <h3>Tanghalang Quezon City University</h3>
+                    <p>A space for theater, acting, storytelling, and stage arts.</p>
+                    <span>Explore Organization →</span>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <a href="organizerpage.html" class="logo">QCU <span>EVENTS</span></a>
+        <p>Connecting the QCU community, one event at a time.</p>
+
+        <div class="footer-links">
+            <a href="organizerpage.html">Home</a>
+            <a href="#upcoming-events">Upcoming Events</a>
+            <a href="#organizations">Organizations</a>
+            <a href="login.html">Log In</a>
+        </div>
+
+        <p class="copyright">© 2026 QCU Events. GROUP EVENT.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,118 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Events | QCU EVENTS</title>
     <link rel="stylesheet" href="style.css">
-
-    <!-- Extra styles for this page only (filter buttons + empty message) -->
     <style>
-        .page-header { padding: 60px 8% 10px; }
-        .filter-bar { display: flex; gap: 12px; flex-wrap: wrap; padding: 10px 8% 0; }
-        .search-bar { padding: 20px 8% 0; }
-        .search-bar input {
-            width: 100%;
-            max-width: 480px;
-            padding: 12px 20px;
-            border: 2px solid #5a2d0c;
-            border-radius: 999px;
-            background: #f5e6c8;
-            color: #3b1f0a;
-            font-size: 1rem;
-            font-family: inherit;
-            outline: none;
+        .nav-user,
+        .nav-user form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .search-bar input:focus { box-shadow: 0 0 0 3px rgba(90, 45, 12, 0.25); }
-        .filter-btn {
-            border: 2px solid #5a2d0c;
-            background: transparent;
-            color: #5a2d0c;
-            padding: 10px 22px;
-            border-radius: 999px;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: inherit;
-        }
-        .filter-btn.active,
-        .filter-btn:hover { background: #5a2d0c; color: #f5e6c8; }
-        .category-bar { display: flex; gap: 12px; flex-wrap: wrap; padding: 14px 8% 0; }
-        .cat-btn {
-            border: 2px solid #5a2d0c;
-            background: transparent;
-            color: #5a2d0c;
-            padding: 8px 20px;
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: .9rem;
-            cursor: pointer;
-            font-family: inherit;
-        }
-        .cat-btn.active,
-        .cat-btn:hover { background: #5a2d0c; color: #f5e6c8; }
-        .event-category {
-            display: inline-block;
-            margin-left: 6px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            background: #e8d3a6;
-            color: #5a2d0c;
-            font-size: .7rem;
-            font-weight: 800;
-            letter-spacing: .5px;
-            text-transform: uppercase;
-        }
-        .no-events { padding: 40px 8%; font-size: 1.1rem; display: none; }
-        .event-tag.live { background: #b3261e; }
-        .event-range { font-weight: 700; }
-    </style>
 
-    <style id="nav-search-styles">
-        .nav-user { display: flex; align-items: center; gap: 10px; }
-        .nav-user[hidden], .nav-user button[hidden] { display: none !important; }
         .nav-user input {
             width: 260px;
             padding: 10px 18px;
-            border: 2px solid #5a2d0c;
+            border: 2px solid #c98270;
             border-radius: 999px;
-            background: #fff8ea;
-            color: #3b1f0a;
-            font-size: .95rem;
+            background: #fefbf8;
+            color: #382d28;
             font-family: inherit;
-            outline: none;
         }
-        .nav-user input:focus { box-shadow: 0 0 0 3px rgba(90, 45, 12, 0.25); }
+
         .nav-user button {
             padding: 10px 16px;
-            border: 2px solid #5a2d0c;
+            border: 2px solid #c98270;
             border-radius: 999px;
             background: transparent;
-            color: #5a2d0c;
+            color: #c98270;
             font-weight: 700;
             font-family: inherit;
             cursor: pointer;
         }
-        .nav-user button:hover { background: #5a2d0c; color: #f5e6c8; }
-        @media (max-width: 800px) { .nav-user input { width: 140px; } }
+
+        .nav-user button:hover {
+            background: #c98270;
+            color: #fefbf8;
+        }
+
+        .user-menu {
+            position: relative;
+        }
+
+        .user-menu summary {
+            list-style: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #c98270;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .user-menu summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .user-menu .menu {
+            position: absolute;
+            right: 0;
+            top: 54px;
+            width: 230px;
+            padding: 8px;
+            background: #fefbf8;
+            border: 2px solid #c98270;
+            border-radius: 16px;
+            z-index: 1000;
+        }
+
+        .user-menu .menu a {
+            display: block;
+            padding: 10px 12px;
+            border-radius: 10px;
+            color: #382d28;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .user-menu .menu a:hover {
+            background: #f6e8e3;
+        }
+
+        .user-menu .menu a.sub {
+            padding-left: 28px;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .user-menu .menu .edit-acc summary {
+            position: static;
+            width: auto;
+            height: auto;
+            border-radius: 10px;
+            background: transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            color: #382d28;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .user-menu .menu .edit-acc summary:hover {
+            background: #f6e8e3;
+        }
+
+        .user-menu .menu .edit-acc summary::after {
+            content: "▾";
+            transition: transform .2s;
+        }
+
+        .user-menu .menu .edit-acc[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        .user-menu .menu .logout {
+            color: #b3261e;
+        }
+
+        .page-header,
+        .status-bar,
+        .cat-bar,
+        .events-section {
+            width: calc(100% - 64px);
+            max-width: 1440px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 28px;
+            padding-right: 28px;
+        }
+
+        .events-section {
+            padding-top: 40px;
+            padding-bottom: 65px;
+        }
+
+        .page-header {
+            padding-top: 60px;
+            padding-bottom: 10px;
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding-top: 10px;
+        }
+
+        .status-bar button {
+            padding: 10px 22px;
+            border: 2px solid #c98270;
+            border-radius: 999px;
+            background: transparent;
+            color: #c98270;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .status-bar button:hover,
+        .status-bar button.active {
+            background: #c98270;
+            color: #fefbf8;
+        }
+
+        .event-tag.live {
+            background: #b3261e;
+        }
+
+        .cat-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding-top: 14px;
+        }
+
+        .cat-bar button {
+            padding: 8px 20px;
+            border: 2px solid #c98270;
+            border-radius: 999px;
+            background: transparent;
+            color: #c98270;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .cat-bar button:hover,
+        .cat-bar button.active {
+            background: #c98270;
+            color: #fefbf8;
+        }
+
+        .no-events {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            display: none;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- NAVIGATION -->
     <header class="navbar">
-        <a href="mainpage.html" class="logo">QCU <span>EVENTS</span></a>
+        <a href="participantpage.html" class="logo">QCU <span>EVENTS</span></a>
 
         <nav class="nav-links">
-            <a href="mainpage.html">Home</a>
+            <a href="participantpage.html">Home</a>
             <a href="events.html">All Events</a>
-            <a href="mainpage.html#organizations">Organizations</a>
+            <a href="participantpage.html#organizations">Organizations</a>
         </nav>
 
-        <!-- SHOWS ONLY AFTER LOG IN -->
-        <form class="nav-user" id="navUser" action="events.html" method="get">
-            <input type="search" id="navSearch" name="q" placeholder="Search current &amp; upcoming events..." autocomplete="off">
-            <button type="button" id="logoutBtn" hidden>Log Out</button>
-        </form>
+        <div class="nav-user">
+            <form action="events.html" method="get">
+                <input type="search" id="search" name="q" placeholder="Search current &amp; upcoming events..."
+                    autocomplete="off">
+                <button type="submit">Search</button>
+            </form>
+            <details class="user-menu">
+                <summary>&#128100;</summary>
+                <div class="menu">
+                    <details class="edit-acc">
+                        <summary>Edit Accounts</summary>
+                        <a href="Accounts.html#user" class="sub">Edit User</a>
+                        <a href="Accounts.html#password" class="sub">Edit Password</a>
+                        <a href="Accounts.html#profile" class="sub">Edit Profile</a>
+                    </details>
+                    <a href="History.html">History of Events</a>
+                    <a href="Registered.html">History of Registered Events</a>
+                    <a href="About.html">About</a>
+                    <a href="index.html" class="logout">Log Out</a>
+                </div>
+            </details>
+        </div>
     </header>
 
     <!-- PAGE HEADER -->
@@ -122,174 +248,142 @@
         <p>Browse the events happening right now and the ones coming up.</p>
     </section>
 
-    <!-- FILTERS -->
-    <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="current">Happening Now</button>
-        <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+    <!-- CURRENT / UPCOMING -->
+    <div class="status-bar">
+        <button class="active" data-status="all">All</button>
+        <button data-status="current">Happening Now</button>
+        <button data-status="upcoming">Upcoming</button>
     </div>
 
-    <!-- CATEGORY FILTERS -->
-    <div class="category-bar">
-        <button class="cat-btn active" data-category="all">All Categories</button>
-        <button class="cat-btn" data-category="academics">Academics</button>
-        <button class="cat-btn" data-category="non-academic">Non-Academic</button>
-        <button class="cat-btn" data-category="sports">Sports</button>
+    <!-- CATEGORIES -->
+    <div class="cat-bar">
+        <button class="active" data-category="all">All</button>
+        <button data-category="academics">Academics</button>
+        <button data-category="non-academic">Non-Academic</button>
+        <button data-category="sports">Sports</button>
     </div>
 
     <!-- EVENTS -->
     <section class="events-section">
-        <div class="event-grid" id="eventGrid"></div>
-        <p class="no-events" id="noEvents">No events found in this category.</p>
+        <div class="event-grid">
+
+            <a href="events.html" class="event-card" data-category="non-academic" data-start="2026-10-28">
+                <img class="event-photo"
+                    src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=85"
+                    alt="Art and creativity">
+                <div class="event-info">
+                    <span class="event-tag">HAPPENING TOMORROW</span>
+                    <h3>Arts and Creativity Day</h3>
+                    <p>Discover student artwork, creativity, and talent.</p>
+                    <p class="event-date">October 28, 2026</p>
+                </div>
+            </a>
+
+            <a href="events.html" class="event-card" data-category="sports" data-start="2026-10-30">
+                <img class="event-photo"
+                    src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=85"
+                    alt="Sports event">
+                <div class="event-info">
+                    <span class="event-tag">COMING SOON</span>
+                    <h3>QCU Sports Fest</h3>
+                    <p>Support your fellow students in exciting sports activities.</p>
+                    <p class="event-date">October 30, 2026</p>
+                </div>
+            </a>
+
+        </div>
+        <p class="no-events" id="noEvents">No events found.</p>
     </section>
 
     <!-- FOOTER -->
     <footer class="footer">
-        <a href="mainpage.html" class="logo">QCU <span>EVENTS</span></a>
+        <a href="participantpage.html" class="logo">QCU <span>EVENTS</span></a>
         <p>Connecting the QCU community, one event at a time.</p>
 
         <div class="footer-links">
-            <a href="mainpage.html">Home</a>
+            <a href="participantpage.html">Home</a>
             <a href="events.html">All Events</a>
-            <a href="mainpage.html#organizations">Organizations</a>
+            <a href="participantpage.html#organizations">Organizations</a>
         </div>
 
-        <p class="copyright">© 2026 QCU Events. GROUP EVENT.</p>
+        <p class="copyright">© 2026 QCU Events. All rights reserved.</p>
     </footer>
 
     <script>
-        
-        const events = [
-        
-            {
-                title: "QCU Campus Gathering",
-                desc: "Meet fellow students and enjoy a fun campus gathering.",
-                category: "non-academic",
-                start: "2026-10-26",
-                img: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=85",
-                alt: "Campus gathering"
-            },
-            {
-                title: "Arts and Creativity Day",
-                desc: "Discover student artwork, creativity, and talent.",
-                category: "non-academic",
-                start: "2026-10-28",
-                img: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=85",
-                alt: "Art and creativity"
-            },
-            {
-                title: "QCU Sports Fest",
-                desc: "Support your fellow students in exciting sports activities.",
-                category: "sports",
-                start: "2026-10-30",
-                img: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=85",
-                alt: "Sports event"
-            }
-        ];
-
-        const grid = document.getElementById("eventGrid");
+        const cards = document.querySelectorAll(".event-card");
+        const statusButtons = document.querySelectorAll(".status-bar button");
+        const catButtons = document.querySelectorAll(".cat-bar button");
+        const search = document.getElementById("search");
         const noEvents = document.getElementById("noEvents");
-        const buttons = document.querySelectorAll(".filter-btn");
-        const catButtons = document.querySelectorAll(".cat-btn");
-        const categoryLabels = { "academics": "Academics", "non-academic": "Non-Academic", "sports": "Sports" };
-
-        const MS_DAY = 24 * 60 * 60 * 1000;
-        const toDate = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
-        const fmt = d => d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+        let status = "all";
+        let category = "all";
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        // Work out status for each event and drop past ones
-        const items = events.map(e => {
-            const start = toDate(e.start);
-            const end = e.end ? toDate(e.end) : start;
-            let status, tag, live = false;
-
-            if (end < today) return null;                       // already finished
-
-            if (start <= today && today <= end) {
-                status = "current"; tag = "HAPPENING NOW"; live = true;
-            } else {
-                status = "upcoming";
-                const days = Math.round((start - today) / MS_DAY);
-                if (days === 1) tag = "HAPPENING TOMORROW";
-                else if (days <= 7) tag = "COMING SOON";
-                else tag = "UPCOMING";
-            }
-
-            const dateText = e.end ? fmt(start) + " – " + fmt(end) : fmt(start);
-            return { ...e, start, status, tag, live, dateText };
-        }).filter(Boolean)
-          .sort((a, b) => (a.status === b.status ? a.start - b.start : a.status === "current" ? -1 : 1));
-
-        const searchInput = document.getElementById("navSearch");
-        let currentFilter = "all";
-        let currentCategory = "all";
-
-        function render() {
-            const query = searchInput.value.trim().toLowerCase();
-
-            const shown = items.filter(e => {
-                const matchesFilter = currentFilter === "all" || e.status === currentFilter;
-                const matchesCategory = currentCategory === "all" || e.category === currentCategory;
-                const searchable = (e.title + " " + e.desc + " " + e.dateText + " " + e.tag + " " + (categoryLabels[e.category] || "")).toLowerCase();
-                return matchesFilter && matchesCategory && searchable.includes(query);
-            });
-
-            grid.innerHTML = shown.map(e => `
-                <a href="login.html" class="event-card">
-                    <img class="event-photo" src="${e.img}" alt="${e.alt}">
-                    <div class="event-info">
-                        <span class="event-tag ${e.live ? "live" : ""}">${e.tag}</span>
-                        <span class="event-category">${categoryLabels[e.category] || ""}</span>
-                        <h3>${e.title}</h3>
-                        <p>${e.desc}</p>
-                        <p class="event-date">${e.dateText}</p>
-                    </div>
-                </a>
-            `).join("");
-
-            noEvents.style.display = shown.length ? "none" : "block";
+        function toDate(text) {
+            const [y, m, d] = text.split("-").map(Number);
+            return new Date(y, m - 1, d);
         }
 
-        buttons.forEach(btn => {
-            btn.addEventListener("click", () => {
-                buttons.forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                currentFilter = btn.dataset.filter;
-                render();
+        cards.forEach(card => {
+            const start = toDate(card.dataset.start);
+            const end = card.dataset.end ? toDate(card.dataset.end) : start;
+            const tag = card.querySelector(".event-tag");
+
+            if (end < today) {
+                card.dataset.status = "past";
+            } else if (start <= today) {
+                card.dataset.status = "current";
+                tag.textContent = "HAPPENING NOW";
+                tag.classList.add("live");
+            } else {
+                card.dataset.status = "upcoming";
+                const days = Math.round((start - today) / 86400000);
+                tag.textContent = days === 1 ? "HAPPENING TOMORROW" : days <= 7 ? "COMING SOON" : "UPCOMING";
+            }
+        });
+
+        function filter() {
+            const text = search.value.toLowerCase();
+            let count = 0;
+
+            cards.forEach(card => {
+                const okStatus = card.dataset.status !== "past" && (status === "all" || card.dataset.status === status);
+                const okCategory = category === "all" || card.dataset.category === category;
+                const okText = card.textContent.toLowerCase().includes(text);
+                const show = okStatus && okCategory && okText;
+                card.style.display = show ? "" : "none";
+                if (show) count++;
             });
+
+            noEvents.style.display = count ? "none" : "block";
+        }
+
+        statusButtons.forEach(btn => {
+            btn.onclick = () => {
+                statusButtons.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                status = btn.dataset.status;
+                filter();
+            };
         });
 
         catButtons.forEach(btn => {
-            btn.addEventListener("click", () => {
+            btn.onclick = () => {
                 catButtons.forEach(b => b.classList.remove("active"));
                 btn.classList.add("active");
-                currentCategory = btn.dataset.category;
-                render();
-            });
+                category = btn.dataset.category;
+                filter();
+            };
         });
 
-        searchInput.addEventListener("input", render);
-        document.getElementById("navUser").addEventListener("submit", e => e.preventDefault());
-
-        // Pre-fill the search if the user searched from the homepage
-        searchInput.value = new URLSearchParams(window.location.search).get("q") || "";
-
-        render();
-
-        /* Show the search bar (upper right) only when a user is logged in */
-        fetch("/api/me")
-            .then(r => r.json())
-            .then(data => { if (data.loggedIn) document.getElementById("logoutBtn").hidden = false; })
-            .catch(() => {});
-
-        document.getElementById("logoutBtn").addEventListener("click", async () => {
-            await fetch("/api/logout", { method: "POST" });
-            window.location.href = "html.html";
-        });
+        search.oninput = filter;
+        search.form.onsubmit = e => e.preventDefault();
+        search.value = new URLSearchParams(location.search).get("q") || "";
+        filter();
     </script>
 
 </body>
+
 </html>
